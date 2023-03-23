@@ -1,0 +1,23 @@
+name: Cloud Build & Push
+
+on:
+  push:
+    branches: [main]
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Deploy Stack
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_SECRET }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.FOLDER_PATH }}
+            git fetch
+            git checkout origin/main
+            docker compose up -d --build --remove-orphans
