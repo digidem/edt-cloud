@@ -1,5 +1,7 @@
 # Setting up your own Earth Defenders Toolkit Cloud
 
+[![Test Cloud docker-compose Stack](https://github.com/digidem/edt-cloud/actions/workflows/cloud-test.yml/badge.svg)](https://github.com/digidem/edt-cloud/actions/workflows/cloud-test.yml)
+
 1. **A cloud provider or a computer**: we recommend [Digital Ocean](https://digitalocean.com) or any computer your organization can provide
 2. **Docker and docker-compose**: Some cloud providers (such as Digital Ocean) have a marketplace with [single-click Docker deployment](https://cloud.digitalocean.com/droplets/new?onboarding_origin=marketplace&appId=87786318&image=docker-20-04&activation_redirect=%2Fdroplets%2Fnew%3FappId%3D87786318%26image%3Ddocker-20-04). You can also install Docker and docker-compose on your machine using a single command:
 ```
