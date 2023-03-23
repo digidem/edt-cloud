@@ -1,4 +1,4 @@
-name: Cloud Build & Push
+name: Cloud Build & Deploy
 
 on:
   push:
