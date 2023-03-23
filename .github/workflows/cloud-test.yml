@@ -8,7 +8,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Generate .env file
-        run: cp docker/cloud/.env.example docker/cloud/.env
+        run: cp .env.example .env
       - name: Build the stack
         run: docker-compose up -d
       # - name: Test # TODO add tests: filebrowser, syncthing, mapeo-icons, fdroid-repo
