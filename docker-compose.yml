@@ -112,6 +112,15 @@ services:
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
+  # https://hub.docker.com/_/httpd
+  httpd:
+    build: services/httpd
+    volumes:
+      - ${DIR}/app-data/releases:/usr/local/apache2/htdocs
+    environment:
+      VIRTUAL_HOST: ${DOMAIN_RELEASES}
+      LETSENCRYPT_HOST: ${DOMAIN_RELEASES}
+      LETSENCRYPT_EMAIL: ${EMAIL}
   # https://github.com/webrecorder/browsertrix-crawler
   crawler:
     build: services/crawler
