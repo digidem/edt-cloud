@@ -61,7 +61,7 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
   # https://filebrowser.org
   filebrowser:
-    build: services/filebrowser
+    image: filebrowser/filebrowser:s6
     restart: always
     volumes:
       - ${DIR}:/srv
