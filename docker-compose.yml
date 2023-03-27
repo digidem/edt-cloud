@@ -71,7 +71,6 @@ services:
       VIRTUAL_HOST: ${DOMAIN_FILEBROWSER}
       LETSENCRYPT_HOST: ${DOMAIN_FILEBROWSER}
       LETSENCRYPT_EMAIL: ${EMAIL}
-      VIRTUAL_PORT: 8080
       PGID: ${PGID}
       PUID: ${PUID}
   # https://hub.docker.com/r/minio/minio/
