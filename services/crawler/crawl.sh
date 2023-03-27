@@ -16,6 +16,8 @@ echo "Moved!"
 fi
 echo "Crawling installers!"
 # TODO: run node script
+rm -f /app/content/installers/*
+app-crawler --path=/app/content/installers
 echo "Crawling installers done"
 
 echo "Sleeping for $CRAWL_TIMER seconds..."
