@@ -117,6 +117,8 @@ services:
     build: services/releases
     volumes:
       - ${DIR}/app-data/releases:/usr/local/apache2/htdocs
+    ports:
+      - 8081:80
     environment:
       VIRTUAL_HOST: ${DOMAIN_RELEASES}
       LETSENCRYPT_HOST: ${DOMAIN_RELEASES}
@@ -138,6 +140,7 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     ports:
+      - 8082:9443
       - 8000:8000
     environment:
       VIRTUAL_HOST: ${DOMAIN_PORTAINER}
