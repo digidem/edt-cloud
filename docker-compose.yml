@@ -113,8 +113,8 @@ services:
       - 22000:22000/udp
       - 21027:21027/udp
   # https://hub.docker.com/_/httpd
-  httpd:
-    build: services/httpd
+  releases:
+    build: services/releases
     volumes:
       - ${DIR}/app-data/releases:/usr/local/apache2/htdocs
     environment:
