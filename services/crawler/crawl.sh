@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Crawling websites!"
+echo "Crawling content!"
 crawl --config /app/crawl-config.yml
-echo "Crawling websites done"
+echo "Crawling done"
 count=$(ls -1 /crawls/collections/crawl-*/archive/*.warc.gz 2>/dev/null | wc -l)
 if [ $count != 0 ]; then
 echo "Creating folders if don't exist"
