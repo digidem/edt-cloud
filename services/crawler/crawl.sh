@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+echo "Crawling installers!"
+mkdir -p /app/content/installers
+rm -f /app/content/installers/*
+app-crawler --path=/app/content/installers
+echo "Crawling installers done"
 echo "Crawling content!"
 crawl --config /app/crawl-config.yml
 echo "Crawling done"
@@ -14,10 +19,5 @@ echo "Copying content to content folder"
 mv /crawls/collections/crawl-*/archive/* /app/content/offline-websites/
 echo "Moved!"
 fi
-echo "Crawling installers!"
-# TODO: run node script
-rm -f /app/content/installers/*
-app-crawler --path=/app/content/installers
-echo "Crawling installers done"
 
 echo "Sleeping for $CRAWL_TIMER seconds..."
