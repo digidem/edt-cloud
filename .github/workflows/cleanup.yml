@@ -10,7 +10,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run docker cleaner
-        run: docker run --rm -v /var/run/docker.sock:/var/run/docker.sock zzrot/docker-clean run
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock zzrot/docker-clean run
+            docker system prune -f
   delete-artifacts:
     runs-on: ubuntu-latest
     steps:
