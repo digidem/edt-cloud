@@ -10,7 +10,8 @@ crawl --config /app/crawl-config.yml
 echo "Crawling done"
 count=$(ls -1 /crawls/collections/crawl-*/archive/*.warc.gz 2>/dev/null | wc -l)
 if [ $count != 0 ]; then
-echo "Creating folders if don't exist"
+echo "Cleaning old-websites folder"
+rm -rf /app/content/old-websites
 mkdir -p /app/content/old-websites
 mkdir -p /app/content/offline-websites/
 echo "Moving old content"
