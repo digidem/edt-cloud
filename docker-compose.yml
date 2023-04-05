@@ -138,13 +138,13 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     ports:
-      - 8082:9000
+      - 8082:9443
       - 8000:8000
     environment:
       VIRTUAL_HOST: ${DOMAIN_PORTAINER}
       LETSENCRYPT_HOST: ${DOMAIN_PORTAINER}
       LETSENCRYPT_EMAIL: ${EMAIL}
-      VIRTUAL_PORT: 9443
+      VIRTUAL_PORT: 9000
     volumes:
         - ${DIR}/app-data/portainer:/data
         - /var/run/docker.sock:/var/run/docker.sock
