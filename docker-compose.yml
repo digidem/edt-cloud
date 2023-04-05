@@ -117,8 +117,6 @@ services:
     build: services/releases
     volumes:
       - ${DIR}/app-data/releases:/usr/local/apache2/htdocs
-    ports:
-      - 8081:80
     environment:
       VIRTUAL_HOST: ${DOMAIN_RELEASES}
       LETSENCRYPT_HOST: ${DOMAIN_RELEASES}
