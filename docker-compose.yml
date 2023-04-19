@@ -124,7 +124,7 @@ services:
   # https://github.com/webrecorder/browsertrix-crawler
   crawler:
     build: services/crawler
-    restart: always
+    restart: on-failure
     volumes:
         - ${DIR}/app-data/crawls:/crawls/
         - ${DIR}/content:/app/content
