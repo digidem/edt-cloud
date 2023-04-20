@@ -1,7 +1,5 @@
 seeds:
   - url: https://docs.earthdefenderstoolkit.com/
-    depth: 1
-    scopeType: domain
   - url: https://docs.mapeo.app/
   - url: https://docs.terrastories.app/
   - url: https://www.earthdefenderstoolkit.com

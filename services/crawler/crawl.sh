@@ -6,7 +6,7 @@ rm -f /app/content/installers/*
 app-crawler --path=/app/content/installers
 echo "Crawling installers done"
 echo "Crawling content!"
-crawl --config /app/crawl-config.yml
+crawl --config /app/crawl-config.yml --pageTimeout 180000
 echo "Crawling done"
 count=$(ls -1 /crawls/collections/crawl-*/archive/*.warc.gz 2>/dev/null | wc -l)
 if [ $count != 0 ]; then
