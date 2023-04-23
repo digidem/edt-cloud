@@ -1,6 +1,7 @@
 seeds:
   - url: https://docs.earthdefenderstoolkit.com/
   - url: https://docs.mapeo.app/
+  - url: https://docs.mapeo.app/v/espanol/
   - url: https://docs.terrastories.app/
   - url: https://www.earthdefenderstoolkit.com
 combineWARCs: true
