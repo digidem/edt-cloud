@@ -19,6 +19,7 @@ services:
       NOUN_KEY: ${NOUN_KEY}
       NOUN_SECRET: ${NOUN_SECRET}
       VIRTUAL_PORT: 3000
+      CORS: ${CORS}
   # https://hub.docker.com/r/nginxproxy/nginx-proxy
   proxy:
     build: services/nginx-proxy
