@@ -150,3 +150,14 @@ services:
         - ${DIR}/app-data/portainer:/data
         - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+  # https://github.com/digidem/mapeo-config-editor-v2
+  mapeo-config-editor:
+    image: communityfirst/mapeo-config-editor
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${DOMAIN_MAPEO_EDITOR}
+      LETSENCRYPT_HOST: ${DOMAIN_MAPEO_EDITOR}
+      LETSENCRYPT_EMAIL: ${EMAIL}
+      VIRTUAL_PORT: 3000
+    volumes:
+        - ${DIR}/content/partners:/tmp/uploads
