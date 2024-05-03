@@ -160,4 +160,17 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
       VIRTUAL_PORT: 3000
     volumes:
-        - ${DIR}/content/partners:/tmp/uploads
+        - ${DIR}/content/partners/mapeo-config-editor:/tmp/uploads
+  statusnook:
+    image: goksan/statusnook
+    # environment:
+    #   VIRTUAL_HOST: ${DOMAIN_STATUSNOOK}
+    #   LETSENCRYPT_HOST: ${DOMAIN_STATUSNOOK}
+    #   LETSENCRYPT_EMAIL: ${EMAIL}
+    #   VIRTUAL_PORT: 8000
+    ports:
+      - 127.0.0.1:8000:8000
+
+    volumes:
+      - ${DIR}/app-data/statusnook:/app/statusnook-data
+    restart: always
