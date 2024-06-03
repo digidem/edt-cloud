@@ -160,7 +160,7 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
       VIRTUAL_PORT: 3000
     volumes:
-        - ${DIR}/content/partners/mapeo-config-editor:/tmp/uploads
+        - ${DIR}/app-data/mapeo-config-editor:/tmp/uploads
   statusnook:
     image: goksan/statusnook
     environment:
