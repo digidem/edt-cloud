@@ -62,18 +62,17 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
   # https://filebrowser.org
   filebrowser:
-    image: filebrowser/filebrowser:s6
+    image: filebrowser/filebrowser
     restart: always
     volumes:
       - ${DIR}:/srv
-      - ${DIR}/app-data/filebrowser/database:/database
-      - ${DIR}/app-data/filebrowser/config:/config
+      - ${DIR}/app-data/filebrowser/database.db:/database.db
+      - ${DIR}/app-data/filebrowser/config.json:/config.json
+    user: "${PUID}:${PGID}"
     environment:
       VIRTUAL_HOST: ${DOMAIN_FILEBROWSER}
       LETSENCRYPT_HOST: ${DOMAIN_FILEBROWSER}
       LETSENCRYPT_EMAIL: ${EMAIL}
-      PGID: ${PGID}
-      PUID: ${PUID}
   # https://hub.docker.com/r/minio/minio/
   minio:
     image: minio/minio
