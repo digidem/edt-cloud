@@ -149,6 +149,26 @@ services:
         - ${DIR}/app-data/portainer:/data
         - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+  # https://github.com/ConservationMetrics/mbgl-tile-renderer
+  tile-renderer-api:
+    image: communityfirst/mbgl-tile-renderer:main
+    environment:
+      VIRTUAL_HOST: ${DOMAIN_TILE_RENDERER_API}
+      LETSENCRYPT_HOST: ${DOMAIN_TILE_RENDERER_API}
+      LETSENCRYPT_EMAIL: ${EMAIL}
+    volumes:
+        - ${DIR}/content/partners:/app/outputs
+    restart: unless-stopped
+    command: server
+  # ui
+  # tile-renderer-ui:
+  #   image: communityfirst/tile-renderer-ui
+  #   environment:
+  #     VIRTUAL_HOST: ${DOMAIN_TILE_RENDERER}
+  #     LETSENCRYPT_HOST: ${DOMAIN_TILE_RENDERER}
+  #     LETSENCRYPT_EMAIL: ${EMAIL}
+  #     API_DOMAIN: ${DOMAIN_TILE_RENDERER_API}
+  #   restart: unless-stopped
   # https://github.com/digidem/mapeo-config-editor-v2
   mapeo-config-editor:
     image: communityfirst/mapeo-config-editor
@@ -173,3 +193,60 @@ services:
     volumes:
       - ${DIR}/app-data/statusnook:/app/statusnook-data
     restart: always
+
+  # OpenDroneMap
+  db:
+    image: opendronemap/webodm_db
+    container_name: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${DIR}/app-data/webodm_db:/var/lib/postgresql/data:Z
+    restart: unless-stopped
+    oom_score_adj: -100
+  webapp:
+    image: opendronemap/webodm_webapp
+    container_name: webapp
+    entrypoint: /bin/bash -c "chmod +x /webodm/*.sh && /bin/bash -c \"/webodm/wait-for-postgres.sh db /webodm/wait-for-it.sh -t 0 broker:6379 -- /webodm/start.sh\""
+    volumes:
+      - ${DIR}/app-data/webodm_webapp:/webodm/app/media:z
+    ports:
+      - "7000:8000"
+    depends_on:
+      - db
+      - broker
+      - worker
+    # environment:
+    #   VIRTUAL_HOST: ${DOMAIN_ODM}
+    #   LETSENCRYPT_HOST: ${DOMAIN_ODM}
+    #   LETSENCRYPT_EMAIL: ${EMAIL}
+    #   VIRTUAL_PORT: 8000
+    #   WO_PORT: ${WO_PORT}
+    #   WO_HOST: ${WO_HOST}
+    #   WO_DEBUG: ${WO_DEBUG}
+    #   WO_BROKER: ${WO_BROKER}
+    #   WO_DEV: ${WO_DEV}
+    #   WO_DEV_WATCH_PLUGINS: ${WO_DEV_WATCH_PLUGINS}
+    #   WO_SECRET_KEY: ${WO_SECRET_KEY}
+    restart: unless-stopped
+    oom_score_adj: 0
+  broker:
+    image: redis:7.0.10
+    container_name: broker
+    restart: unless-stopped
+    oom_score_adj: -500
+  worker:
+    image: opendronemap/webodm_webapp
+    container_name: worker
+    entrypoint: /bin/bash -c "/webodm/wait-for-postgres.sh db /webodm/wait-for-it.sh -t 0 broker:6379 -- /webodm/wait-for-it.sh -t 0 webapp:8000 -- /webodm/worker.sh start"
+    volumes:
+      - ${DIR}/app-data/webodm_worker:/webodm/app/media:z
+    depends_on:
+      - db
+      - broker
+    environment:
+      - WO_BROKER
+      - WO_DEBUG
+      - WO_SECRET_KEY
+    restart: unless-stopped
+    oom_score_adj: 250
