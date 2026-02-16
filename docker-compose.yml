@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   # https://containrrr.dev/watchtower
   watchtower:
@@ -164,6 +164,8 @@ services:
   comapeo-docs-api:
     image: communityfirst/comapeo-docs-api:pr-126
     restart: unless-stopped
+    ports:
+      - 3001:3001
     environment:
       # VIRTUAL_HOST: ${DOMAIN_COMAPEO_DOCS_API}
       # LETSENCRYPT_HOST: ${DOMAIN_COMAPEO_DOCS_API}
