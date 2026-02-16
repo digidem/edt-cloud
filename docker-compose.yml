@@ -172,12 +172,15 @@ services:
       # LETSENCRYPT_EMAIL: ${EMAIL}
       # VIRTUAL_PORT: 3001
       NODE_ENV: production
+      API_HOST: 0.0.0.0
+      API_PORT: 3001
       NOTION_API_KEY: ${NOTION_API_KEY}
       DATABASE_ID: ${COMAPEO_DOCS_DATABASE_ID}
       DATA_SOURCE_ID: ${COMAPEO_DOCS_DATA_SOURCE_ID}
       GITHUB_REPO_URL: ${COMAPEO_DOCS_GITHUB_REPO_URL}
       GITHUB_TOKEN: ${COMAPEO_DOCS_GITHUB_TOKEN}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      API_KEY_COMAPEO_DOCS: ${API_KEY_COMAPEO_DOCS}
     volumes:
       - ${DIR}/app-data/comapeo-docs-api:/app/workspace
   # https://github.com/digidem/mapeo-config-builder-api
