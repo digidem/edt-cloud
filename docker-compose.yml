@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   # https://containrrr.dev/watchtower
   watchtower:
@@ -55,7 +55,7 @@ services:
     image: httpd:latest
     restart: always
     volumes:
-      -  ${DIR}/content/fdroid-repository:/usr/local/apache2/htdocs/
+      - ${DIR}/content/fdroid-repository:/usr/local/apache2/htdocs/
     environment:
       VIRTUAL_HOST: ${DOMAIN_FDROID}
       LETSENCRYPT_HOST: ${DOMAIN_FDROID}
@@ -91,7 +91,7 @@ services:
       MINIO_ROOT_USER: ${ADMIN_MINIO}
       MINIO_ROOT_PASSWORD: ${PASSWORD_MINIO}
       # MINIO_BROWSER_REDIRECT_URL: https://[CI_CD_DOMAIN]
-      # MINIO_SERVER_URL: https://[CI_CD_DOMAIN]:34256 
+      # MINIO_SERVER_URL: https://[CI_CD_DOMAIN]:34256
     command: server --address ":9000" --console-address ":9001" /data
   # https://hub.docker.com/r/linuxserver/syncthing/
   syncthing:
@@ -126,8 +126,8 @@ services:
     build: services/crawler
     restart: on-failure
     volumes:
-        - ${DIR}/app-data/crawls:/crawls/
-        - ${DIR}/content:/app/content
+      - ${DIR}/app-data/crawls:/crawls/
+      - ${DIR}/content:/app/content
     environment:
       VIRTUAL_HOST: ${DOMAIN_CRAWLER}
       LETSENCRYPT_HOST: ${DOMAIN_CRAWLER}
@@ -146,8 +146,8 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
       VIRTUAL_PORT: 9000
     volumes:
-        - ${DIR}/app-data/portainer:/data
-        - /var/run/docker.sock:/var/run/docker.sock
+      - ${DIR}/app-data/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
   # https://github.com/digidem/mapeo-config-editor-v2
   mapeo-config-editor:
@@ -159,7 +159,7 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
       VIRTUAL_PORT: 3000
     volumes:
-        - ${DIR}/app-data/mapeo-config-editor:/tmp/uploads
+      - ${DIR}/app-data/mapeo-config-editor:/tmp/uploads
   # https://github.com/digidem/comapeo-docs
   comapeo-docs-api:
     image: communityfirst/comapeo-docs-api:pr-126
@@ -179,6 +179,9 @@ services:
       DATA_SOURCE_ID: ${COMAPEO_DOCS_DATA_SOURCE_ID}
       GITHUB_REPO_URL: ${COMAPEO_DOCS_GITHUB_REPO_URL}
       GITHUB_TOKEN: ${COMAPEO_DOCS_GITHUB_TOKEN}
+      GITHUB_CONTENT_BRANCH: ${COMAPEO_DOCS_GITHUB_CONTENT_BRANCH}
+      GIT_AUTHOR_NAME: ${COMAPEO_DOCS_GIT_AUTHOR_NAME}
+      GIT_AUTHOR_EMAIL: ${COMAPEO_DOCS_GIT_AUTHOR_EMAIL}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       API_KEY_COMAPEO_DOCS: ${API_KEY_COMAPEO_DOCS}
     volumes:
