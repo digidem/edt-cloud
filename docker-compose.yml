@@ -62,7 +62,7 @@ services:
       LETSENCRYPT_EMAIL: ${EMAIL}
   # https://filebrowser.org
   filebrowser:
-    image: filebrowser/filebrowser
+    image: filebrowser/filebrowser:v2.31.2
     restart: always
     volumes:
       - ${DIR}:/srv
@@ -185,6 +185,7 @@ services:
       WORKDIR: /app/workspace
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       API_KEY_COMAPEO_DOCS: ${API_KEY_COMAPEO_DOCS}
+      NOTION_TRIGGER_API_KEY: ${NOTION_TRIGGER_API_KEY}
     volumes:
       - ${DIR}/app-data/comapeo-docs-api:/app/workspace
   # https://github.com/digidem/mapeo-config-builder-api
