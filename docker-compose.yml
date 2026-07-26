@@ -213,3 +213,25 @@ services:
     volumes:
       - ${DIR}/app-data/statusnook:/app/statusnook-data
     restart: always
+  # https://github.com/digidem/flight-geofence
+  # No domain assigned yet -- exposed directly on a host port over plain
+  # HTTP. ALLOW_INSECURE_DEFAULTS is required because the app refuses to
+  # boot bound beyond localhost without HTTPS; move this behind the
+  # nginx-proxy VIRTUAL_HOST/LETSENCRYPT pattern (like the other services
+  # above) once a domain is assigned, and drop ALLOW_INSECURE_DEFAULTS +
+  # set SESSION_HTTPS_ONLY=true at that point.
+  flight-geofence:
+    image: communityfirst/flight-geofence:latest
+    restart: always
+    ports:
+      - "8085:8080"
+    environment:
+      ADMIN_PASSWORD: ${FLIGHT_GEOFENCE_ADMIN_PASSWORD}
+      APP_SECRET_KEY: ${FLIGHT_GEOFENCE_APP_SECRET_KEY}
+      BIND_ADDRESS: 0.0.0.0
+      SESSION_HTTPS_ONLY: "false"
+      ALLOW_INSECURE_DEFAULTS: "true"
+      TRUSTED_HOSTS: ${DOMAIN_FLIGHT_GEOFENCE},${SERVER_IP},localhost,127.0.0.1
+      DASHBOARD_BASE_URL: ${FLIGHT_GEOFENCE_DASHBOARD_BASE_URL}
+    volumes:
+      - ${DIR}/app-data/flight-geofence:/data
