@@ -10,17 +10,13 @@ curl -fsSL https://raw.githubusercontent.com/jinweijie/install-docker-and-compos
 3. Clone repository
 4. cd into server
 5. cp and edit .env.example
-6. `mkdir -p ~/data/content && chown -R 1000:1000 ~/data/content`
-7. `docker-compose up -d`
-8. `docker-compose logs -f`
-9. `docker-compose logs -f syncthing`
+6. `docker-compose up -d`
+7. `docker-compose logs -f`
 
 ## Usage
 
-1. Setup a stronger password for FileBrowser and Syncthing apps
-2. Change the description and moderation strategy for the Secure Scuttlebutt Room app
-3. Using the FileBrowser application create folders for your content
-4. Using the Syncthing application share the content folders
+1. Setup a stronger password for FileBrowser
+2. Using the FileBrowser application create folders for your content
 
 ## Actions
 
