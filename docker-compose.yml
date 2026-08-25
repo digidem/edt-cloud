@@ -10,6 +10,10 @@ services:
     image: containrrr/watchtower
     restart: always
     logging: *default-logging
+    # Kept alive-but-stopped by /root/maintenance.sh during its prune
+    # window; this label stops docker container prune from deleting it.
+    labels:
+      edt.maintenance.keep: "true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 60
