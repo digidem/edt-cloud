@@ -112,6 +112,11 @@ services:
     image: communityfirst/flight-geofence:latest
     restart: always
     logging: *default-logging
+    # App has a memory leak (RSS grows ~650MB between polls until the host
+    # OOM-kills it, starving everything else via kswapd thrash on this 1GB
+    # box). Cap it so its OOM kills stay inside the container. Remove once
+    # the upstream leak is fixed.
+    mem_limit: 400m
     ports:
       - "8085:8080"
     environment:
