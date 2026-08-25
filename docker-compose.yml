@@ -1,8 +1,15 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "50m"
+    max-file: "3"
+
 services:
   # https://containrrr.dev/watchtower
   watchtower:
     image: containrrr/watchtower
     restart: always
+    logging: *default-logging
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 60
@@ -10,6 +17,7 @@ services:
   mapeo-icons:
     image: communityfirst/mapeo-icons
     restart: always
+    logging: *default-logging
     environment:
       VIRTUAL_HOST: ${DOMAIN_ICONS}
       LETSENCRYPT_HOST: ${DOMAIN_ICONS}
@@ -23,6 +31,7 @@ services:
   proxy:
     build: services/nginx-proxy
     restart: always
+    logging: *default-logging
     container_name: proxy
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
@@ -39,6 +48,7 @@ services:
   ssl:
     image: nginxproxy/acme-companion:latest
     restart: always
+    logging: *default-logging
     container_name: ssl
     environment:
       NGINX_PROXY_CONTAINER: proxy
@@ -53,6 +63,7 @@ services:
   filebrowser:
     image: filebrowser/filebrowser:v2.31.2
     restart: always
+    logging: *default-logging
     volumes:
       - ${DIR}:/srv
       - ${DIR}/app-data/filebrowser/database.db:/database.db
@@ -66,6 +77,7 @@ services:
   mapeo-config-editor:
     image: communityfirst/mapeo-config-editor
     restart: always
+    logging: *default-logging
     environment:
       VIRTUAL_HOST: ${DOMAIN_MAPEO_EDITOR}
       LETSENCRYPT_HOST: ${DOMAIN_MAPEO_EDITOR}
@@ -77,6 +89,7 @@ services:
   mapeo-config-builder-api:
     image: communityfirst/comapeo-config-builder-api
     restart: always
+    logging: *default-logging
     # environment:
     #   VIRTUAL_HOST: ${DOMAIN_MAPEO_BUILDER}
     #   LETSENCRYPT_HOST: ${DOMAIN_MAPEO_BUILDER}
@@ -94,6 +107,7 @@ services:
   flight-geofence:
     image: communityfirst/flight-geofence:latest
     restart: always
+    logging: *default-logging
     ports:
       - "8085:8080"
     environment:
