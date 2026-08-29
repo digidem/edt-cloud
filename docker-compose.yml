@@ -107,7 +107,7 @@ services:
   # published: the dashboard is reachable only through the proxy, so the
   # admin password never crosses the network in clear text.
   flight-geofence:
-    image: communityfirst/flight-geofence:v0.6.2
+    image: communityfirst/flight-geofence:v0.7.0
     restart: always
     logging: *default-logging
     # Boundary sync + coverage regeneration peaked at 4.4GB RSS before
