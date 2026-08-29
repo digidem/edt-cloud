@@ -133,5 +133,10 @@ services:
       # FR24 Explorer-plan token: env wins over any interface-saved
       # value and shows as locked (source=environment) in Settings.
       FLIGHTRADAR24_API_KEY: ${FLIGHT_GEOFENCE_FR24_API_KEY}
+      # Resend delivery: env wins over any interface-saved value and shows
+      # as locked (source=environment) in Settings, same as the FR24 key.
+      EMAIL_PROVIDER: resend
+      RESEND_API_KEY: ${FLIGHT_GEOFENCE_RESEND_API_KEY}
+      ALERT_RECIPIENTS: ${FLIGHT_GEOFENCE_ALERT_RECIPIENTS}
     volumes:
       - ${DIR}/app-data/flight-geofence:/data
