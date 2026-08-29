@@ -102,30 +102,36 @@ services:
     ports:
       - 3000:3000
   # https://github.com/digidem/flight-geofence
-  # No domain assigned yet -- exposed directly on a host port over plain
-  # HTTP. ALLOW_INSECURE_DEFAULTS is required because the app refuses to
-  # boot bound beyond localhost without HTTPS; move this behind the
-  # nginx-proxy VIRTUAL_HOST/LETSENCRYPT pattern (like the other services
-  # above) once a domain is assigned, and drop ALLOW_INSECURE_DEFAULTS +
-  # set SESSION_HTTPS_ONLY=true at that point.
+  # Served at ${DOMAIN_FLIGHT_GEOFENCE} over TLS via nginx-proxy +
+  # acme-companion, like the other services above. No host port is
+  # published: the dashboard is reachable only through the proxy, so the
+  # admin password never crosses the network in clear text.
   flight-geofence:
-    image: communityfirst/flight-geofence:latest
+    image: communityfirst/flight-geofence:v0.6.2
     restart: always
     logging: *default-logging
-    # App has a memory leak (RSS grows ~650MB between polls until the host
-    # OOM-kills it, starving everything else via kswapd thrash on this 1GB
-    # box). Cap it so its OOM kills stay inside the container. Remove once
-    # the upstream leak is fixed.
-    mem_limit: 400m
-    ports:
-      - "8085:8080"
+    # Boundary sync + coverage regeneration peaked at 4.4GB RSS before
+    # v0.5.1 (upstream simplify fix); now ~450MB peak during sync, ~20MB
+    # idle. Keep the cap as an OOM guard on this 1GB box.
+    mem_limit: 850m
     environment:
+      VIRTUAL_HOST: ${DOMAIN_FLIGHT_GEOFENCE}
+      VIRTUAL_PORT: 8080
+      LETSENCRYPT_HOST: ${DOMAIN_FLIGHT_GEOFENCE}
+      LETSENCRYPT_EMAIL: ${EMAIL}
       ADMIN_PASSWORD: ${FLIGHT_GEOFENCE_ADMIN_PASSWORD}
       APP_SECRET_KEY: ${FLIGHT_GEOFENCE_APP_SECRET_KEY}
       BIND_ADDRESS: 0.0.0.0
-      SESSION_HTTPS_ONLY: "false"
-      ALLOW_INSECURE_DEFAULTS: "true"
-      TRUSTED_HOSTS: ${DOMAIN_FLIGHT_GEOFENCE},${SERVER_IP},localhost,127.0.0.1
+      SESSION_HTTPS_ONLY: "true"
+      TRUSTED_HOSTS: ${DOMAIN_FLIGHT_GEOFENCE},localhost,127.0.0.1
       DASHBOARD_BASE_URL: ${FLIGHT_GEOFENCE_DASHBOARD_BASE_URL}
+      # Trust the proxy's X-Forwarded-For so login throttling keys on the
+      # real client IP instead of the proxy container, which would let one
+      # attacker lock every user out. Safe because no host port is
+      # published: only containers on this network can reach the app.
+      FORWARDED_ALLOW_IPS: "*"
+      # FR24 Explorer-plan token: env wins over any interface-saved
+      # value and shows as locked (source=environment) in Settings.
+      FLIGHTRADAR24_API_KEY: ${FLIGHT_GEOFENCE_FR24_API_KEY}
     volumes:
       - ${DIR}/app-data/flight-geofence:/data
